@@ -256,7 +256,7 @@ extension OrderedDictionary: CustomStringConvertible, CustomDebugStringConvertib
         return constructDescription(debug: true)
     }
     
-    fileprivate func constructDescription(debug: Bool) -> String {
+    private func constructDescription(debug: Bool) -> String {
         // The implementation of the description is inspired by zwaldowski's implementation of the ordered dictionary.
         // See http://bit.ly/1VL4JUR
         
