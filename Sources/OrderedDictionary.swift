@@ -37,7 +37,7 @@ public struct OrderedDictionary<Key: Hashable, Value>: MutableCollection {
     }
     
     public var orderedValues: [Value] {
-        return _orderedKeys.flatMap { _keysToValues[$0] }
+        return _orderedKeys.compactMap { _keysToValues[$0] }
     }
     
     // ======================================================= //
@@ -65,7 +65,7 @@ public struct OrderedDictionary<Key: Hashable, Value>: MutableCollection {
         return _keysToValues[key]
     }
     
-    public mutating func updateValue(_ value: Value, forKey key: Key) -> Value? {
+    @discardableResult public mutating func updateValue(_ value: Value, forKey key: Key) -> Value? {
         if _orderedKeys.contains(key) {
             guard let currentValue = _keysToValues[key] else {
                 fatalError("Inconsistency error occured in OrderedDictionary")
@@ -82,7 +82,7 @@ public struct OrderedDictionary<Key: Hashable, Value>: MutableCollection {
         }
     }
     
-    public mutating func removeValueForKey(_ key: Key) -> Value? {
+    @discardableResult public mutating func removeValueForKey(_ key: Key) -> Value? {
         if let index = _orderedKeys.index(of: key) {
             guard let currentValue = _keysToValues[key] else {
                 fatalError("Inconsistency error occured in OrderedDictionary")
@@ -139,11 +139,11 @@ public struct OrderedDictionary<Key: Hashable, Value>: MutableCollection {
         return (key, value)
     }
     
-    public mutating func insertElementWithKey(_ key: Key, value: Value, atIndex index: Index) -> Value? {
+    @discardableResult public mutating func insertElementWithKey(_ key: Key, value: Value, atIndex index: Index) -> Value? {
         return insertElement((key, value), atIndex: index)
     }
     
-    public mutating func insertElement(_ newElement: Element, atIndex index: Index) -> Value? {
+    @discardableResult public mutating func insertElement(_ newElement: Element, atIndex index: Index) -> Value? {
         guard index >= 0 else {
             fatalError("Negative OrderedDictionary index is out of range")
         }
@@ -174,7 +174,7 @@ public struct OrderedDictionary<Key: Hashable, Value>: MutableCollection {
         return currentValue
     }
     
-    public mutating func updateElement(_ element: Element, atIndex index: Index) -> Element? {
+    @discardableResult public mutating func updateElement(_ element: Element, atIndex index: Index) -> Element? {
         guard let currentElement = elementAtIndex(index) else {
             fatalError("OrderedDictionary index out of range")
         }
