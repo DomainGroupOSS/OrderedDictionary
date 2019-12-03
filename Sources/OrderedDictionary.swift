@@ -83,7 +83,7 @@ public struct OrderedDictionary<Key: Hashable, Value>: MutableCollection {
     }
     
     @discardableResult public mutating func removeValueForKey(_ key: Key) -> Value? {
-        if let index = _orderedKeys.index(of: key) {
+        if let index = _orderedKeys.firstIndex(of: key) {
             guard let currentValue = _keysToValues[key] else {
                 fatalError("Inconsistency error occured in OrderedDictionary")
             }
@@ -124,7 +124,7 @@ public struct OrderedDictionary<Key: Hashable, Value>: MutableCollection {
     }
     
     public func indexForKey(_ key: Key) -> Index? {
-        return _orderedKeys.index(of: key)
+        return _orderedKeys.firstIndex(of: key)
     }
     
     public func elementAtIndex(_ index: Index) -> Element? {
@@ -157,7 +157,7 @@ public struct OrderedDictionary<Key: Hashable, Value>: MutableCollection {
         let adjustedIndex: Int
         let currentValue: Value?
         
-        if let currentIndex = _orderedKeys.index(of: key) {
+        if let currentIndex = _orderedKeys.firstIndex(of: key) {
             currentValue = _keysToValues[key]
             adjustedIndex = (currentIndex < index - 1) ? index - 1 : index
             
